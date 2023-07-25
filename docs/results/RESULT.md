@@ -19,3 +19,7 @@
 # Ссылки на демонстрацию работы/скриншоты
 
 Демонстрация работы приложения:
+![](https://github.com/wAlienUFOx/surf-flutter-study-jam-4/blob/main/docs/assets/result_1.png)
+![](https://github.com/wAlienUFOx/surf-flutter-study-jam-4/blob/main/docs/assets/result_2.png)
+![](https://github.com/wAlienUFOx/surf-flutter-study-jam-4/blob/main/docs/assets/result_3.png)
+![](https://github.com/wAlienUFOx/surf-flutter-study-jam-4/blob/main/docs/assets/result_gif.gif)
