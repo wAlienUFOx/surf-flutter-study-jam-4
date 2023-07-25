@@ -32,7 +32,7 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   )..repeat(reverse: true);
   late Animation<Offset> _flyOffsetAnimation = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(0, 0.1),
+    end: const Offset(0, 0.05),
   ).animate(CurvedAnimation(
     parent: _flyController,
     curve: Curves.linear,
