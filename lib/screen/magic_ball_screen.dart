@@ -50,7 +50,7 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
                 children: [
                   Image.asset(
                     'assets/${shadowColor}_ball_shadow.png',
-                    width: getSize(context) * 0.8,
+                    width: getBallSize(context) * 0.8,
                   ),
                   const SizedBox(height: 60),
                   const Text(

@@ -3,6 +3,7 @@ import 'package:surf_practice_magic_ball/core/magic_reply.dart';
 import 'package:shake/shake.dart';
 import 'package:surf_practice_magic_ball/core/service_finctions.dart';
 import '../core/mock_data_repository.dart';
+import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 
 class AppBallButton extends StatefulWidget {
 
@@ -24,6 +25,7 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   Color errorColor = Colors.transparent;
   double sizeOfButton = 0;
   bool waitingForReply = false;
+  bool isShaking = false;
 
   late final ShakeDetector shakeDetector = ShakeDetector.waitForStart(
       onPhoneShake: onPressed
@@ -32,7 +34,8 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   void eraseInBallText() {
     inBallText = '';
     errorColor = Colors.black.withOpacity(0.7);
-    sizeOfButton = getSize(context);
+    sizeOfButton = getBallSize(context);
+    isShaking = true;
     setState(() {});
   }
 
@@ -43,6 +46,7 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
       eraseInBallText();
       MagicReply magicReply = await fetchMagicReply();
       inBallText = magicReply.reply;
+      isShaking = false;
       if(inBallText.isEmpty) {
         errorColor = Colors.red.withOpacity(0.9);
         widget.callback('red');
@@ -68,25 +72,29 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: getSize(context),
-      width: getSize(context),
-      child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-          shape: BoxShape.circle,
-          image: DecorationImage(
-              image:  AssetImage('assets/ball_full.png'),
-              alignment: Alignment.center,
-              fit: BoxFit.fill,
-          ),
-        ),
-        child: ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent
+    return ShakeWidget(
+      autoPlay: isShaking,
+      shakeConstant: ShakeDefaultConstant2(),
+      child: SizedBox(
+        height: getBallSize(context),
+        width: getBallSize(context),
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                image:  AssetImage('assets/ball_full.png'),
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
             ),
-            child: getBall()
+          ),
+          child: ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent
+              ),
+              child: getBall()
+          ),
         ),
       ),
     );
