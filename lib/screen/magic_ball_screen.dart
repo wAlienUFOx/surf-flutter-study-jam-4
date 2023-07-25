@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surf_practice_magic_ball/core/service_finctions.dart';
 import 'package:surf_practice_magic_ball/widgets/app_ball_button.dart';
 
 class MagicBallScreen extends StatefulWidget {
@@ -11,6 +12,13 @@ class MagicBallScreen extends StatefulWidget {
 }
 
 class _MagicBallScreenState extends State<MagicBallScreen> {
+
+  String shadowColor = 'blue';
+
+  void errorShadowColor (String errorMessage) {
+    shadowColor = errorMessage;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,7 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
             ]
         ),
       ),
-      child: const Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
           child: Column(
@@ -34,13 +42,18 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
             children: [
               Column(
                 children: [
-                  SizedBox(height: 180),
-                  AppBallButton()
+                  const SizedBox(height: 180),
+                  AppBallButton(callback: errorShadowColor)
                 ],
               ),
               Column(
                 children: [
-                  Text(
+                  Image.asset(
+                    'assets/${shadowColor}_ball_shadow.png',
+                    width: getSize(context) * 0.8,
+                  ),
+                  const SizedBox(height: 60),
+                  const Text(
                     'Нажмите на шар или потрясите телефон',
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
@@ -48,7 +61,7 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
                       color: Color(0xff727272)
                     ),
                   ),
-                  SizedBox(height: 56)
+                  const SizedBox(height: 56)
                 ],
               ),
             ],

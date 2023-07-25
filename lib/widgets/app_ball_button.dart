@@ -1,13 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_practice_magic_ball/core/magic_reply.dart';
 import 'package:shake/shake.dart';
+import 'package:surf_practice_magic_ball/core/service_finctions.dart';
 import '../core/mock_data_repository.dart';
 
 class AppBallButton extends StatefulWidget {
 
+  final void Function(String) callback;
+
   const AppBallButton({
     super.key,
+    required this.callback
   });
 
   @override
@@ -29,18 +32,20 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   void eraseInBallText() {
     inBallText = '';
     errorColor = Colors.black.withOpacity(0.7);
-    sizeOfButton = getSize();
+    sizeOfButton = getSize(context);
     setState(() {});
   }
 
   Future<void> onPressed () async {
     if(!waitingForReply) {
       waitingForReply = true;
+      widget.callback('blue');
       eraseInBallText();
       MagicReply magicReply = await fetchMagicReply();
       inBallText = magicReply.reply;
       if(inBallText.isEmpty) {
         errorColor = Colors.red.withOpacity(0.9);
+        widget.callback('red');
       } else {
         sizeOfButton = 0;
       }
@@ -48,11 +53,6 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
       waitingForReply = false;
     }
   }
-
-  double getSize() => switch (defaultTargetPlatform) {
-    TargetPlatform.android || TargetPlatform.iOS =>  MediaQuery.of(context).size.width * 0.9,
-    _ =>  MediaQuery.of(context).size.height * 0.6,
-  };
 
   @override
   void initState() {
@@ -69,8 +69,8 @@ class _AppBallButtonState extends State<AppBallButton> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getSize(),
-      width: getSize(),
+      height: getSize(context),
+      width: getSize(context),
       child: DecoratedBox(
         decoration: const BoxDecoration(
           color: Colors.transparent,

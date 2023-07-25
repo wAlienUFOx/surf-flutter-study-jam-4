@@ -15,9 +15,13 @@ class MagicReply{
 }
 
 Future<MagicReply> fetchMagicReply() async {
-  final response = await http.get(Uri.parse('https://eightballapi.com/api'));
-  if(response.statusCode == 200) {
-    return MagicReply.fromJson(jsonDecode(response.body));
+  try {
+    final response = await http.get(Uri.parse('https://eightballapi.com/api'));
+    if(response.statusCode == 200) {
+      return MagicReply.fromJson(jsonDecode(response.body));
+    }
+  } on Exception {
+    return const MagicReply(reply: '');
   }
   return const MagicReply(reply: '');
 }
